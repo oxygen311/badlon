@@ -8,7 +8,7 @@ long_description = (here / 'README.md').read_text(encoding='utf-8')
 
 setup(
     name='badlon',
-    version='0.1.1',
+    version='0.1.2',
     description='A bioinf tool for analyzing pan-genome and other features based on synteny blocks',
     long_description=long_description,
     long_description_content_type='text/markdown',
