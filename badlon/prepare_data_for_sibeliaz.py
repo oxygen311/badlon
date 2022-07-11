@@ -67,6 +67,8 @@ def main(args):
     # print(cnt)
     for chr, lengths in contig_lengths.items():
         print('Chr/contig:', chr, '   mean length:', np.mean(lengths))
+
+    os.makedirs(os.path.dirname(output_file), exist_ok=True)
     SeqIO.write(all_contigs, open(output_file, 'w'), 'fasta')
 
     print('\nCreated file:', output_file)
