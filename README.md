@@ -10,7 +10,7 @@ pip install badlon
 
 Now you can run tool from any directory as `badlon`.
 
-## Usage
+## Pipeline Usage
 
 ### Modules
 
@@ -32,9 +32,11 @@ optional arguments:
   -h, --help            show this help message and exit
 ```
 
+Here is recommended pipeline to process data with badlon:
+
 ### Step 1: prepare data with [`PanACoTA` pipeline](https://github.com/gem-pasteur/PanACoTA)
 
-If you have genomes in some folder called `some_folder` (one file for genome), we suggest preparing data using [`PanACoTA` pipeline](https://github.com/gem-pasteur/PanACoTA).
+If you have genomes in some folder called `some_folder` (one file for genome), we suggest preparing data for badlon using [`PanACoTA` pipeline](https://github.com/gem-pasteur/PanACoTA).
 
 To do so, you can use those commands:
 
@@ -47,19 +49,19 @@ To do so, you can use those commands:
 
 #### 1.2 Annotating genomes with `PanACoTA annotate` module:
 
-`PanACoTA annotate --info 1-prepare/L* -r 2-annotate -n ESCO --threads 16`
+```PanACoTA annotate --info 1-prepare/L* -r 2-annotate -n ESCO --threads 16```
 
 * You can change label `-n ESCO` depending on your species (ESCO is for *Escherichia coli*);
-* For check parameters visit [`PanACoTA prepare`](https://aperrin.pages.pasteur.fr/pipeline_annotation/html-doc/usage.html#annotate-subcommand) documentation.
+* For check parameters visit [`PanACoTA annotate`](https://aperrin.pages.pasteur.fr/pipeline_annotation/html-doc/usage.html#annotate-subcommand) documentation.
 
 #### 1.3 Calling orthology genes using `PanACoTA pangenome` module:
 
-`PanACoTA pangenome -l 2-annotate/LSTINFO-* -n ESCO -d 2-annotate/Proteins/ -o 3-pangenome`
+```PanACoTA pangenome -l 2-annotate/LSTINFO-* -n ESCO -d 2-annotate/Proteins/ -o 3-pangenome```
 
 * You can change `-i` which is minimum sequence identity to be considered in the same cluster (float between 0 and 1). Default is 0.8.
-* For check parameters visit [`PanACoTA prepare`](https://aperrin.pages.pasteur.fr/pipeline_annotation/html-doc/usage.html#annotate-subcommand) documentation.
+* For check parameters visit [`PanACoTA pangenome`](https://aperrin.pages.pasteur.fr/pipeline_annotation/html-doc/usage.html#pangenome-subcommand) documentation.
 
-### Step 2: `prepare` module of `badlon`
+### Step 2: Preparing data for alignment with `badlon prepare` module
 
 Prepare module is used to prepare data for using SibeliaZ package keeping all necessary information: genome labels and chromosome numbers.
 
@@ -96,16 +98,16 @@ Required arguments:
 
 Example command:
 
-`badlon prepare -f 2-annotate -o for_sibeliaz.fna`
+```badlon prepare -f 2-annotate -o for_sibeliaz.fna```
 
 ### Step 2. Obtaining blocks with [SibeliaZ](https://github.com/medvedevgroup/SibeliaZ)
 
 #### 2.1 Running SibeliaZ with recommended command based on `badlon prepare` output.
 
 Example:
-`sibeliaz -k 15 -a 100 -n -t 32 -o sibeliaz_out for_sibeliaz.fna`
+```sibeliaz -k 15 -a 100 -n -t 32 -o sibeliaz_out for_sibeliaz.fna```
 
-* Watch out `-a` it's needs to be equal around `number_of_genome * 20`, `badlon prepare` calculates it automatically.
+* Watch out `-a` it needs to be equal around `number_of_genome * 20`, `badlon prepare` calculates it automatically.
 
 #### 2.2 Obtaining blocks from alignment
 
@@ -178,4 +180,4 @@ Required arguments:
 
 Example command:
 
-`badlon match -b sibeliaz_out/3000/blocks_coords.txt -a 2-annotate/ -pg 3-pangenome/*.lst -t contig`
+```badlon match -b sibeliaz_out/3000/blocks_coords.txt -a 2-annotate/ -pg 3-pangenome/*.lst -t contig```
