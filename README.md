@@ -108,9 +108,9 @@ Example command:
 badlon prepare -f 2-annotate -o for_sibeliaz.fna
 ```
 
-### Step 2. Obtaining blocks with [SibeliaZ](https://github.com/medvedevgroup/SibeliaZ)
+### Step 3. Obtaining blocks with [SibeliaZ](https://github.com/medvedevgroup/SibeliaZ)
 
-#### 2.1 Running SibeliaZ with recommended command based on `badlon prepare` output.
+#### 3.1 Running SibeliaZ with recommended command based on `badlon prepare` output.
 
 Example:
 ```
@@ -119,7 +119,7 @@ sibeliaz -k 15 -a 100 -n -t 32 -o sibeliaz_out for_sibeliaz.fna
 
 * Watch out `-a` it needs to be equal around `number_of_genome * 20`, `badlon prepare` calculates it automatically.
 
-#### 2.2 Obtaining blocks from alignment
+#### 3.2 Obtaining blocks from alignment
 
 Check recommended command from `badlon prepare` module output. Usually it's (blocks minimal size 3000):
 ```bash
@@ -128,7 +128,7 @@ echo $'30 150\n100 500\n500 1500' > fine.txt
 maf2synteny -s fine.txt -b 3000 blocks_coords.gff
 ```
 
-### Step 3. Calculating block based statistics and charts with `badlon analysis` module:
+### Step 4. Calculating block based statistics and charts with `badlon analysis` module:
 
 Parameters can be checked with help option:
 
@@ -158,7 +158,7 @@ cd ..
 badlon analysis -b sibeliaz_out/3000/blocks_coords.txt
 ```
 
-### Step 4 (optional): Match block and genes annotation with  `badlon match` module
+### Step 5 (optional): Match block and genes annotation with  `badlon match` module
 
 Parameters can be checked with help option:
 
