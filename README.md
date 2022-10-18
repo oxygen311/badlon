@@ -108,7 +108,7 @@ Example command:
 badlon prepare -f 2-annotate -o for_sibeliaz.fna
 ```
 
-### Step 3. Obtaining blocks with [SibeliaZ](https://github.com/medvedevgroup/SibeliaZ)
+### Step 3: Obtaining blocks with [SibeliaZ](https://github.com/medvedevgroup/SibeliaZ)
 
 #### 3.1 Running SibeliaZ with recommended command based on `badlon prepare` output.
 
@@ -128,7 +128,7 @@ echo $'30 150\n100 500\n500 1500' > fine.txt
 maf2synteny -s fine.txt -b 3000 blocks_coords.gff
 ```
 
-### Step 4. Calculating block based statistics and charts with `badlon analysis` module:
+### Step 4: Calculating block based statistics and charts with `badlon analysis` module:
 
 Parameters can be checked with help option:
 
