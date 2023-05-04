@@ -82,9 +82,9 @@ def match_blocks_genes(blocks_df, genes_df):
         ids = [id for id, or_ in zip(genes_df.gene_id, genes_df.orientation)]
         return ([-og for og in ogs[::-1]], ids[::-1]) if inverted else (ogs, ids)
 
-    block_to_left_border_ogs, block_to_left_border_ids = {}, {}
-    block_to_right_border_ogs, block_to_right_border_ids = {}, {}
-    block_to_ogs, block_to_ids = {}, {}
+    block_to_left_border_ogs, block_to_left_border_ids = defaultdict(list), defaultdict(list)
+    block_to_right_border_ogs, block_to_right_border_ids = defaultdict(list), defaultdict(list)
+    block_to_ogs, block_to_ids = defaultdict(list), defaultdict(list)
 
     gene_to_block = defaultdict(lambda: ('outside', ''))
 
@@ -107,6 +107,8 @@ def match_blocks_genes(blocks_df, genes_df):
                 current_genes = genes_strain_chr_df[genes_start_index:genes_end_index]
 
                 genes_start_index, genes_end_index = 0, len(current_genes)
+
+                if len(current_genes) == 0: continue
 
                 start_is_on_border = current_genes.start.values[0] < b_start
                 end_is_on_border = current_genes.end.values[-1] > b_end
