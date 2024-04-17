@@ -9,8 +9,8 @@ from badlon.data.process import filter_dataframe_core
 
 
 def coverage(cov_df, output_file, log=False):
+    sns.set_theme(style="whitegrid", font_scale=1.3)
     plt.figure()
-    plt.grid()
 
     sns.histplot(cov_df,
                  x='coverage',
@@ -75,7 +75,8 @@ def coverages_match_chart(blocks_df, genes_df, genome_lengths, folder, contig_mo
                     type_coverages_2d.append([strain, 'core' if core else 'all', chr, t, c / chr_len * 100])
 
     cov_df = pd.DataFrame(type_coverages_2d, columns=['genome', 'core', 'chr/contig', 'type', 'covered'])
-    sns.set_style('whitegrid')
+    sns.set_theme(style="whitegrid", font_scale=1.3)
+    plt.figure()
 
     sns.barplot(x="core", y="covered", hue="type", data=cov_df, hue_order=['gene', 'block', 'block, gene'])
     plt.legend(loc='best')

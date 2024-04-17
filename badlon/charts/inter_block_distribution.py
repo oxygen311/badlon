@@ -6,8 +6,8 @@ from badlon.data.process import filter_dataframe_core, distance_between_blocks_d
 
 
 def inter_block_distribution(df, contig_mode_flag, output_file, state='core', log=False):
+    sns.set_theme(style="whitegrid", font_scale=1.3)
     plt.figure()
-    plt.grid()
 
     distance_between_2d = []
     for chr, df_chr in df.groupby('chr/contig'):
