@@ -12,9 +12,10 @@ def coverage(cov_df, output_file, log=False):
     sns.set_theme(style="whitegrid", font_scale=1.3)
     plt.figure()
 
+    cov_df.rename(columns={'chr/contig': 'chromosome'}, inplace=True)
     sns.histplot(cov_df,
                  x='coverage',
-                 hue='chr/contig' if 'chr/contig' in cov_df.columns else None,
+                 hue='chromosome' if 'chromosome' in cov_df.columns else None,
                  bins=50,
                  log_scale=(False, log),
                  element="step")
