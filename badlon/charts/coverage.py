@@ -20,6 +20,8 @@ def coverage(cov_df, output_file, log=False):
                  log_scale=(False, log),
                  element="step")
 
+    plt.ylabel('Number of genomes')
+    plt.xlabel('Coverage')
     plt.tight_layout()
     plt.savefig(output_file)
 

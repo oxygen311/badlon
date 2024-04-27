@@ -38,6 +38,8 @@ def pan_blocks(df, contig_mode_flag, output_folder, permutations=420):
                      hue="chromosome" if not contig_mode_flag else None,
                      ci='sd')
         plt.tight_layout()
+        plt.ylabel(column[0].upper() + column[1:])
+        plt.xlabel('Number of genomes')
         plt.savefig(output_folder + column.replace(' ', '_') + '.pdf')
 
     draw(column='new blocks')
@@ -88,6 +90,8 @@ def pan_blocks_length(df, contig_mode_flag, output_folder, permutations=420):
                      y=column,
                      hue="chromosome" if not contig_mode_flag else None,
                      ci='sd')
+        plt.ylabel(column[0].upper() + column[1:])
+        plt.xlabel('Number of genomes')
         plt.tight_layout()
         plt.savefig(output_folder + column.replace(' ', '_') + '_length.pdf')
 
