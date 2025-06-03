@@ -27,17 +27,19 @@ def pan_blocks(df, contig_mode_flag, output_folder, permutations=420):
         for chr, df_chr in df.groupby('chr/contig'):
             append_pan_2d_row_based_on_blocks_df(df_chr, chr)
 
-    pan_df = pd.DataFrame(pan_2d, columns=['chr', 'genomes', 'new blocks', 'pan blocks', 'core blocks'])
+    pan_df = pd.DataFrame(pan_2d, columns=['chromosome', 'genomes', 'new blocks', 'pan blocks', 'core blocks'])
 
     def draw(column):
+        sns.set_theme(style="whitegrid", font_scale=1.5)
         plt.figure()
-        plt.grid()
         sns.lineplot(data=pan_df,
                      x='genomes',
                      y=column,
-                     hue="chr" if not contig_mode_flag else None,
+                     hue="chromosome" if not contig_mode_flag else None,
                      ci='sd')
         plt.tight_layout()
+        plt.ylabel(column[0].upper() + column[1:])
+        plt.xlabel('Number of genomes')
         plt.savefig(output_folder + column.replace(' ', '_') + '.pdf')
 
     draw(column='new blocks')
@@ -77,17 +79,19 @@ def pan_blocks_length(df, contig_mode_flag, output_folder, permutations=420):
         for chr, df_chr in df.groupby('chr/contig'):
             append_pan_2d_row_based_on_blocks_df(df_chr, chr)
 
-    pan_df = pd.DataFrame(pan_2d, columns=['chr', 'genomes',
+    pan_df = pd.DataFrame(pan_2d, columns=['chromosome', 'genomes',
                                            'new blocks length', 'pan blocks length', 'core blocks length'])
 
     def draw(column):
+        sns.set_theme(style="whitegrid", font_scale=1.3)
         plt.figure()
-        plt.grid()
         sns.lineplot(data=pan_df,
                      x='genomes',
                      y=column,
-                     hue="chr" if not contig_mode_flag else None,
+                     hue="chromosome" if not contig_mode_flag else None,
                      ci='sd')
+        plt.ylabel(column[0].upper() + column[1:])
+        plt.xlabel('Number of genomes')
         plt.tight_layout()
         plt.savefig(output_folder + column.replace(' ', '_') + '_length.pdf')
 

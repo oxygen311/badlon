@@ -9,16 +9,19 @@ from badlon.data.process import filter_dataframe_core
 
 
 def coverage(cov_df, output_file, log=False):
+    sns.set_theme(style="whitegrid", font_scale=1.3)
     plt.figure()
-    plt.grid()
 
+    cov_df.rename(columns={'chr/contig': 'chromosome'}, inplace=True)
     sns.histplot(cov_df,
                  x='coverage',
-                 hue='chr/contig' if 'chr/contig' in cov_df.columns else None,
+                 hue='chromosome' if 'chromosome' in cov_df.columns else None,
                  bins=50,
                  log_scale=(False, log),
                  element="step")
 
+    plt.ylabel('Number of genomes')
+    plt.xlabel('Coverage')
     plt.tight_layout()
     plt.savefig(output_file)
 
@@ -35,8 +38,8 @@ def coverages_match_chart(blocks_df, genes_df, genome_lengths, folder, contig_mo
 
     for core in [False, True]:
         if core:
-            genes_df = filter_dataframe_core(genes_df, 'genome', 'og')
-            blocks_df = filter_dataframe_core(blocks_df, 'genome', 'block')
+            genes_df = filter_dataframe_core(genes_df, count='genome', groupby='og')
+            blocks_df = filter_dataframe_core(blocks_df, count='genome', groupby='block')
 
         for strain, genes_strain_df in genes_df.groupby('genome'):
             for chr, genes_strain_chr_df in genes_strain_df.groupby('chr/contig'):
@@ -75,9 +78,15 @@ def coverages_match_chart(blocks_df, genes_df, genome_lengths, folder, contig_mo
                     type_coverages_2d.append([strain, 'core' if core else 'all', chr, t, c / chr_len * 100])
 
     cov_df = pd.DataFrame(type_coverages_2d, columns=['genome', 'core', 'chr/contig', 'type', 'covered'])
-    sns.set_style('whitegrid')
+    sns.set_theme(style="whitegrid", font_scale=1.3)
+    plt.figure()
 
-    sns.barplot(x="core", y="covered", hue="type", data=cov_df, hue_order=['gene', 'block', 'block, gene'])
+    cov_df['chr,core'] = cov_df['chr/contig'].astype('str') + ',' + cov_df['core']
+
+    sns.barplot(x="chr,core", y="covered", hue="type", data=cov_df, hue_order=['gene', 'block', 'block, gene'], palette="Set1")
+
+    plt.xlabel('Chromosome, core/all')
+    plt.ylabel('Fraction of genome covered')
     plt.legend(loc='best')
 
     plt.tight_layout()
