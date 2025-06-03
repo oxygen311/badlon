@@ -38,8 +38,8 @@ def coverages_match_chart(blocks_df, genes_df, genome_lengths, folder, contig_mo
 
     for core in [False, True]:
         if core:
-            genes_df = filter_dataframe_core(genes_df, 'genome', 'og')
-            blocks_df = filter_dataframe_core(blocks_df, 'genome', 'block')
+            genes_df = filter_dataframe_core(genes_df, count='genome', groupby='og')
+            blocks_df = filter_dataframe_core(blocks_df, count='genome', groupby='block')
 
         for strain, genes_strain_df in genes_df.groupby('genome'):
             for chr, genes_strain_chr_df in genes_strain_df.groupby('chr/contig'):
@@ -81,7 +81,12 @@ def coverages_match_chart(blocks_df, genes_df, genome_lengths, folder, contig_mo
     sns.set_theme(style="whitegrid", font_scale=1.3)
     plt.figure()
 
-    sns.barplot(x="core", y="covered", hue="type", data=cov_df, hue_order=['gene', 'block', 'block, gene'])
+    cov_df['chr,core'] = cov_df['chr/contig'].astype('str') + ',' + cov_df['core']
+
+    sns.barplot(x="chr,core", y="covered", hue="type", data=cov_df, hue_order=['gene', 'block', 'block, gene'], palette="Set1")
+
+    plt.xlabel('Chromosome, core/all')
+    plt.ylabel('Fraction of genome covered')
     plt.legend(loc='best')
 
     plt.tight_layout()

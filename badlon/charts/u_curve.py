@@ -19,7 +19,7 @@ def u_curve(df, weighted, output_file, contig_mode_flag, log=False):
     plt.ylabel('Length of fragments that are present\n in n genomes, nucleotides'
                if weighted else 'Number of blocks')
     plt.xlabel('Number of genomes')
-    plt.title(f'{"Weighted f" if weighted else "F"}requency of synteny blocks')
+    plt.title(f'{"Weighted f" if weighted else "F"}requency of LCB')
 
     sns.move_legend(ax, "upper left")
 

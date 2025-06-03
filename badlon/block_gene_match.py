@@ -30,6 +30,8 @@ def build_parser(parser):
     required.add_argument('--blocks_file', '-b', required=True,
                           help='Blocks folder resulted as output of original Sibelia or maf2synteny tool. '
                                'Usually it\'s `sibeliaz_out/3000/` folder.')
+    
+    required.add_argument('--blocks_file_filter', '-bf', required=True)
 
     required.add_argument('--annotated_folder', '-a', required=True,
                         help='LSTINFO folder path, output of `annotate` step of PanACoTA.')
@@ -178,6 +180,13 @@ def main(args):
 
     block_coords_to_infercars(blocks_file, other_folder + INFERCARS_FILENAME)
     blocks_df = parse_infercars_to_df(other_folder + INFERCARS_FILENAME)
+
+    block_coords_to_infercars(args.blocks_file_filter, other_folder + INFERCARS_FILENAME.replace('.infercars', '_filter.infercars'))
+    blocks_df_filter = parse_infercars_to_df(other_folder + INFERCARS_FILENAME.replace('.infercars', '_filter.infercars'))
+
+    allowed_genomes = set(blocks_df_filter['genome'])
+    genes_df = genes_df.loc[genes_df['genome'].isin(allowed_genomes)].copy()
+    blocks_df = blocks_df.loc[blocks_df['genome'].isin(allowed_genomes)].copy()
 
     match_blocks_genes(blocks_df, genes_df)
 

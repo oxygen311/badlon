@@ -18,7 +18,7 @@ def length_distribution(df, output_file, contig_mode_flag, log=False):
     plt.ylabel('Number of blocks')
     plt.xlabel('Mean length in nucleotides')
     plt.xlim(xmin=0)
-    plt.title(f'Distribution of synteny blocks length')
+    plt.title(f'Distribution of LCB length')
 
     plt.tight_layout()
     plt.savefig(output_file)
