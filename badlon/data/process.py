@@ -11,7 +11,8 @@ def filter_dataframe_core(df, groupby='block', count='genome'):
     allowed_blocks = set(block
                          for block, df_block in df.groupby(groupby)
                          if len(df_block[count].unique()) == all_sp)
-
+    
+    print(f'Unique single-copy {groupby}: {len(allowed_blocks)}, unique_genomes={all_sp}')
     return df.loc[df[groupby].isin(allowed_blocks)].copy()
 
 
